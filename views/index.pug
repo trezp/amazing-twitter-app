@@ -1,0 +1,21 @@
+html
+  head
+    title= title
+  body
+
+    h1 My Totally Amazing Twitter App
+
+    h2 My Most Recent Tweets
+    ul
+      each tweet in tweetList
+        li= tweet
+
+    h2 My Most Recent Friends
+    ul
+      each user in userList
+        li= user
+
+    h2 Most Recent Direct Messages
+    ul
+      each message in messageList
+        li= message

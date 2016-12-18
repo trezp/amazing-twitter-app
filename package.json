@@ -1,0 +1,16 @@
+{
+  "name": "twitterapp",
+  "version": "1.0.0",
+  "description": "Treehouse Techdegree Project 7",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js"
+  },
+  "author": "Treasure Porth",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.14.0",
+    "pug": "^2.0.0-beta6",
+    "twit": "^2.2.5"
+  }
+}
