@@ -5,17 +5,31 @@ html
 
     h1 My Totally Amazing Twitter App
 
+    h2 My User Info
+    p= userInfo.username
+    p= userInfo.screenname
+    img(src=userInfo.profileImg)
+
     h2 My Most Recent Tweets
-    ul
-      each tweet in tweetList
-        li= tweet
+    each tweet in tweetList
+      ul
+        li= tweet.text
+        li= tweet.favorite_count
+        li= tweet.retweet_count
+        li= tweet.createdAt
 
     h2 My Most Recent Friends
-    ul
-      each user in userList
-        li= user
+    each user in userList
+      ul
+        li
+          img(src=user.img)
+        li= user.screenname
+        li= user.name
+        li= user.following
 
     h2 Most Recent Direct Messages
-    ul
-      each message in messageList
-        li= message
+    each message in messageList
+      ul
+        li= message.sender
+        li= message.message
+        li= message.sender_screename
