@@ -1,8 +1,11 @@
 var express = require('express');
 var app = express();
+var path = require('path');
 var Twit = require('twit');
 var config = require('./config.js');
 var twit = new Twit(config);
+
+app.use(express.static(path.join(__dirname, 'public')));
 
 app.set('view engine', 'pug');
 
