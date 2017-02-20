@@ -9,7 +9,9 @@
   "author": "Treasure Porth",
   "license": "ISC",
   "dependencies": {
+    "body-parser": "^1.16.1",
     "express": "^4.14.0",
+    "morgan": "^1.8.1",
     "pug": "^2.0.0-beta6",
     "twit": "^2.2.5"
   }

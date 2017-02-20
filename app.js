@@ -1,69 +1,45 @@
-var express = require('express');
-var app = express();
-var path = require('path');
-var Twit = require('twit');
-var config = require('./config.js');
-var twit = new Twit(config);
+const express = require('express');
+const app = express();
+const path = require('path');
+const logger = require('morgan');
+const bodyParser = require('body-parser');
+
+const index = require('./routes/index');
 
 app.use(express.static(path.join(__dirname, 'public')));
 
+// view engine setup
+app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
 
-twit.get('statuses/user_timeline', {screen_name: "treasureporth", count: 5}, function(err,data,res){
-  var userInfo;
-  var tweetList = [];
-  var userList = [];
-  var messageList = [];
+app.use('/', index);
 
-  data.forEach(function(tweet){
-    userInfo = {
-      username : tweet.user.name,
-      screenname : tweet.user.screen_name,
-      profileImg : tweet.user.profile_image_url,
-    }
+app.use(logger('dev'));
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(express.static(path.join(__dirname, 'public')));
 
-    tweetList.push({
-      text : tweet.text,
-      favorite_count: tweet.favorite_count,
-      retweet_count: tweet.retweet_count,
-      createdAt: tweet.created_at
-    });
-  });
+// catch 404 and forward to error handler
+app.use((req, res, next) => {
+  var err = new Error('Not Found');
+  err.status = 404;
+  next(err);
+});
 
-  twit.get('friends/list', {screen_name: "treasureporth", count: 5}, function(err,data,res){
-    var users = data.users;
-    users.forEach(function(user){
-        userList.push({
-          screenname: user.screen_name,
-          name: user.name,
-          img: user.profile_image_url,
-          following: user.following
-        });
-    });
-  });
+// error handler
+app.use((err, req, res, next) => {
+  // set locals, only providing error in development
+  res.locals.message = err.message;
+  res.locals.error = req.app.get('env') === 'development' ? err : {};
 
-  twit.get('direct_messages', {screen_name: "treasureporth", count: 5}, function(err,data,res){
-    data.forEach(function(message){
-      messageList.push({
-        sender: message.sender.name,
-        message: message.text,
-        sender_screename: message.sender_screen_name
-      });
-    });
-  });
-
-  app.get('/', function(req,res,err){
-    res.render('index', {
-      title: "Super Duper Twitter App",
-      tweetList: tweetList,
-      userInfo: userInfo,
-      userList: userList,
-      messageList: messageList
-    });
-  });
+  // render the error page
+  res.status(err.status || 500);
+  res.render('error');
 });
 
 
-app.listen(3000, function () {
+app.listen(3000, () => {
   console.log('Witness the magic at localhost:3000!')
 });
+
+module.exports = app;
